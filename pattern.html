@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise AI Agent Pattern Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Warm Neutrals with Earthy Accents -->
+    <!-- Application Structure Plan: A dashboard-style, single-page application. The core is an interactive, filterable grid of AI Agent Patterns. Users can filter by maturity phase (Crawl, Walk, Run) and by industry. Clicking a pattern card opens a modal with detailed information, including specific use cases, directly linking patterns to real-world applications. A dynamic bar chart visualizes the distribution of patterns based on the selected filters. This structure was chosen to transform the static report into an exploratory tool, allowing users to discover relationships between patterns, maturity, and industry needs, rather than passively reading. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: The 9 core agentic patterns and their definitions. Goal: Organize & Inform. Viz/Method: Interactive cards in a CSS grid. Interaction: Click to open a detail modal. Justification: Provides a high-level overview while allowing deep dives on demand. Method: HTML/CSS/JS.
+        - Report Info: The Crawl, Walk, Run maturity framework. Goal: Compare & Organize. Viz/Method: Color-coded tags on each card and filter buttons. Interaction: Filtering the grid. Justification: Allows users to focus on patterns relevant to their organization's maturity level. Method: HTML/CSS/JS.
+        - Report Info: Industry use cases. Goal: Relate patterns to applications. Viz/Method: A dynamic bar chart and detailed lists within each pattern's modal. Interaction: Chart updates with filters; modal shows relevant use cases. Justification: Creates a clear link between abstract patterns and concrete business value. Library: Chart.js.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <style>
+        body {
+            background-color: #FDFBF7;
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 250px;
+            max-height: 300px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 300px;
+                max-height: 350px;
+            }
+        }
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+        .modal-content {
+            transition: transform 0.25s ease;
+        }
+        .pattern-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .pattern-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .tag-crawl { background-color: #E6F4EA; color: #3E9258; }
+        .tag-walk { background-color: #FEF3C7; color: #D97706; }
+        .tag-run { background-color: #FEE2E2; color: #DC2626; }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="text-gray-800">
+
+    <div id="app" class="container mx-auto p-4 md:p-8">
+        
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">The Patterns: Enterprise Agents Use Cases</h1>
+            <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">An interactive guide to AI Agentic Patterns, mapping them to business value across the Crawl, Walk, Run maturity curve.</p>
+        </header>
+
+        <main>
+            <!-- Maturity Definitions Section -->
+            <section id="maturity-definitions" class="mb-12">
+                <h2 class="text-2xl font-bold text-center mb-8 text-gray-800">The Crawl, Walk, Run Framework</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-white p-6 rounded-xl border flex flex-col items-center">
+                        <a href="https://freeimage.host/"><img src="https://iili.io/F6FRUJ4.png" alt="F6FRUJ4.png" border="0" class="h-24 w-auto mb-4"></a>
+                        <h3 class="text-lg font-bold text-gray-900 flex items-center justify-center gap-2">
+                            <span class="tag-crawl text-xs font-semibold px-3 py-1 rounded-full">Crawl</span>
+                            <span>AI as an Assistant</span>
+                        </h3>
+                        <p class="mt-2 text-gray-600 text-sm">The AI agent performs discrete, well-defined tasks. Humans remain firmly in control, driving the overall process and using the AI's output as a suggestion or input for their own work.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border flex flex-col items-center">
+                        <a href="https://freeimage.host/"><img src="https://iili.io/F6FRre2.png" alt="F6FRre2.png" border="0" class="h-24 w-auto mb-4"></a>
+                        <h3 class="text-lg font-bold text-gray-900 flex items-center justify-center gap-2">
+                            <span class="tag-walk text-xs font-semibold px-3 py-1 rounded-full">Walk</span>
+                            <span>AI as a Collaborator</span>
+                        </h3>
+                        <p class="mt-2 text-gray-600 text-sm">The AI agent automates the "happy path" of a process, handling standard cases. The human role shifts to handling exceptions, reviewing complex cases, and managing escalations.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border flex flex-col items-center">
+                        <a href="https://freeimage.host/"><img src="https://iili.io/F6FR4bS.png" alt="F6FR4bS.png" border="0" class="h-24 w-auto mb-4"></a>
+                        <h3 class="text-lg font-bold text-gray-900 flex items-center justify-center gap-2">
+                            <span class="tag-run text-xs font-semibold px-3 py-1 rounded-full">Run</span>
+                            <span>AI as an Orchestrator</span>
+                        </h3>
+                        <p class="mt-2 text-gray-600 text-sm">The AI agent manages complex, end-to-end processes with high autonomy. The human role evolves to "supervisor," overseeing the automated process rather than executing it.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Filters Section -->
+            <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 sticky top-4 z-10 shadow-sm mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="font-semibold text-gray-700 mb-2 block">Filter by Maturity Phase:</label>
+                        <div id="maturity-filters" class="flex flex-wrap gap-2">
+                            <button class="filter-btn-maturity active bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium" data-maturity="All">All Phases</button>
+                            <button class="filter-btn-maturity bg-white hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-medium border" data-maturity="Crawl">Crawl</button>
+                            <button class="filter-btn-maturity bg-white hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-medium border" data-maturity="Walk">Walk</button>
+                            <button class="filter-btn-maturity bg-white hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-medium border" data-maturity="Run">Run</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="industry-filter" class="font-semibold text-gray-700 mb-2 block">Filter by Industry:</label>
+                        <select id="industry-filter" class="w-full p-2 border rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                            <option value="All">All Industries</option>
+                            <option value="Banking & Financial Services">Banking & Financial Services</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Telecommunications">Telecommunications</option>
+                            <option value="Insurance">Insurance</option>
+                            <option value="Investment Management">Investment Management</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart Section -->
+            <section id="chart-section" class="mb-12">
+                 <h2 class="text-2xl font-bold text-center mb-4 text-gray-800">Pattern Distribution</h2>
+                 <p class="text-center text-gray-600 mb-4">This chart shows the number of patterns in each maturity phase, updated based on your industry filter.</p>
+                <div class="chart-container bg-white p-4 rounded-xl shadow-sm">
+                    <canvas id="patternsChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Patterns Grid Section -->
+            <section id="patterns-section">
+                <h2 class="text-2xl font-bold text-center mb-8 text-gray-800">AI Agentic Patterns</h2>
+                <div id="patterns-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Pattern cards will be injected here by JavaScript -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div id="pattern-modal" class="modal fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none">
+        <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto transform scale-95">
+            <div class="sticky top-0 bg-white p-4 border-b z-10 flex justify-between items-center">
+                <h3 id="modal-title" class="text-2xl font-bold"></h3>
+                <button id="modal-close" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+            </div>
+            <div id="modal-body" class="p-6 md:p-8">
+                <!-- Modal content will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const patternsData = [
+                {
+                    id: 1,
+                    name: "Prompt Chaining",
+                    maturity: "Crawl",
+                    definition: "A workflow that breaks a task into a linear sequence of steps, where each Large Language Model (LLM) call processes the output of the previous one. Programmatic checks can be inserted between steps to ensure the process stays on track.",
+                    function: "This pattern improves accuracy and reliability for tasks that are too complex for a single prompt. By decomposing the problem into a series of simpler, sequential subtasks, each LLM call has a more focused and manageable objective, reducing the likelihood of errors or hallucinations.",
+                    example: "A content creation workflow where the first LLM call generates a detailed outline for a blog post. A human or a programmatic check validates the outline. The approved outline is then passed to a second LLM call to write the full draft of the post.",
+                    useCases: [
+                        { industry: "Insurance", description: "Guide a customer service representative or a chatbot through a structured First Notice of Loss (FNOL) intake process, ensuring all required information for a new claim is collected sequentially and accurately." },
+                        { industry: "Investment Management", description: "Generate a draft of a weekly market summary report. The first step summarizes key economic indicators, the second summarizes sector performance, and the third synthesizes these into a market outlook for an analyst to finalize." }
+                    ]
+                },
+                {
+                    id: 2,
+                    name: "Routing",
+                    maturity: "Crawl",
+                    definition: "A workflow that uses an initial LLM call (or a traditional classification model) to classify an input and direct it to one of several specialized downstream tasks or models.",
+                    function: "This pattern enables separation of concerns and cost/performance optimization. Simple, low-stakes queries can be routed to smaller, faster, and cheaper models, while complex, high-stakes queries are sent to more capable models.",
+                    example: "A customer service system receives an incoming email. The router first classifies the email's intent (e.g., 'Billing Inquiry,' 'Technical Support'). Based on the classification, the email is routed to a different downstream process.",
+                    useCases: [
+                        { industry: "Banking & Financial Services", description: "Triage customer service emails into 'Payment Dispute,' 'Account Inquiry,' or 'Loan Application' queues for specialized human agents." },
+                        { industry: "Telecommunications", description: "A chatbot triages technical support requests into categories like 'Billing,' 'Network Outage,' or 'New Service Provisioning,' directing the customer to the correct support queue or self-service article." }
+                    ]
+                },
+                {
+                    id: 3,
+                    name: "Parallelization",
+                    maturity: "Crawl",
+                    definition: "A workflow where multiple LLMs work on a task simultaneously, with their outputs being aggregated programmatically. This includes Sectioning (breaking down tasks) and Voting (comparing outputs).",
+                    function: "Sectioning improves speed by parallelizing independent subtasks. Voting improves confidence and robustness by requiring a majority agreement from multiple model instances before taking an action, reducing false positives.",
+                    example: "A code review process where three separate LLM calls are asked to review a piece of code for security vulnerabilities. A vulnerability is only flagged for human review if at least two of the three models agree.",
+                     useCases: [
+                        { industry: "Healthcare", description: "Three LLM instances review a draft radiology report summary to flag potential discrepancies. A flag is raised for the radiologist's attention only if at least two models agree, reducing alert fatigue." }
+                    ]
+                },
+                {
+                    id: 4,
+                    name: "Orchestrator-Worker",
+                    maturity: "Walk",
+                    definition: "A system where a central 'orchestrator' LLM dynamically breaks down a complex task, delegates the resulting subtasks to specialized 'worker' LLMs, and then synthesizes their results to form a final output.",
+                    function: "This pattern is well-suited for complex tasks where the necessary subtasks cannot be predicted or hardcoded in advance. The orchestrator reasons about the problem and dynamically plans the execution path.",
+                    example: "A coding agent tasked with implementing a new feature. The orchestrator analyzes the request, determines it requires changes to three specific files, and delegates the coding for each file to a specialized worker agent.",
+                    useCases: [
+                         { industry: "Telecommunications", description: "A 'Service Provisioning Orchestrator' manages the end-to-end process for a new fiber internet customer, delegating tasks to worker agents that interact with network, billing, and dispatch systems." }
+                    ]
+                },
+                {
+                    id: 5,
+                    name: "Evaluator-Optimizer",
+                    maturity: "Walk",
+                    definition: "A workflow that creates an iterative feedback loop between two LLMs. One LLM, the 'optimizer,' produces an output. A second LLM, the 'evaluator,' provides a critique based on predefined criteria, which is fed back to the optimizer for refinement.",
+                    function: "This pattern is highly effective for tasks where quality is subjective or multi-faceted. It automates the process of critique and improvement, mimicking how a human expert might refine their work based on feedback.",
+                    example: "A system for high-quality literary translation. A generator LLM produces a translation, and an evaluator LLM critiques it for stylistic consistency and cultural nuance, prompting a refined version.",
+                    useCases: [
+                        { industry: "Healthcare", description: "An agent drafts a patient's discharge summary. An evaluator agent critiques it against a clinical checklist (medication schedule, follow-up details) before a nurse reviews it." },
+                        { industry: "Investment Management", description: "An agent proposes portfolio rebalancing trades. An evaluator agent checks the trades against the client's Investment Policy Statement (IPS) for constraints before an advisor sees the proposal." }
+                    ]
+                },
+                {
+                    id: 6,
+                    name: "Agentic RAG",
+                    maturity: "Walk",
+                    definition: "An enhanced version of Retrieval-Augmented Generation (RAG) where an agent uses its reasoning capabilities to perform dynamic, multi-step information gathering from multiple sources before synthesizing an answer.",
+                    function: "This pattern solves complex questions that cannot be answered by retrieving a single document. The agent can break down a query, search multiple data sources, realize it needs more context, perform another search, and integrate all findings.",
+                    example: "A financial analyst asks about Q3 revenue growth compared to competitors. The agent queries an internal sales DB, then searches public news APIs for competitor data, and finally synthesizes a comparative analysis.",
+                    useCases: [
+                        { industry: "Banking & Financial Services", description: "An internal agent assists compliance officers by answering complex questions, searching internal policy documents and external regulations." },
+                        { industry: "Insurance", description: "An agent assists a claims adjuster by analyzing a complex auto claim, synthesizing information from the policy document, police reports, and repair shop estimates." }
+                    ]
+                },
+                {
+                    id: 7,
+                    name: "Tool-Calling Agent",
+                    maturity: "Run",
+                    definition: "The fundamental pattern for an autonomous agent. It is a system where an LLM can dynamically select and execute external functions (known as 'tools,' such as APIs or code libraries) based on the context of a task.",
+                    function: "This pattern allows an LLM to interact with and affect the outside world. It can access real-time information, retrieve data from proprietary databases, send emails, or take actions in other software systems.",
+                    example: "A personal assistant agent is asked to find a meeting time for a team. It uses a `calendar_lookup` tool, then a `find_meeting_time` tool, and finally an `send_email` tool to send the invitation.",
+                    useCases: [
+                         { industry: "Telecommunications", description: "A support agent for a technician that can perform basic diagnostics by calling internal APIs to run line tests or check for local network outages." }
+                    ]
+                },
+                {
+                    id: 8,
+                    name: "Multi-Agent Systems (MAS)",
+                    maturity: "Run",
+                    definition: "Sophisticated architectures where multiple specialized, autonomous agents collaborate to handle complex tasks that are beyond the capabilities of any single agent. Includes Supervisor, Network, and Hierarchical sub-patterns.",
+                    function: "MAS enables the principle of 'divide and conquer' for highly complex problems. By creating a team of specialized agents (e.g., research, writing, coding), an organization can tackle large-scale, multi-faceted projects.",
+                    example: "A team of agents building a software feature: a research agent gathers requirements, a coding agent writes the code, and a QA agent tests it.",
+                    useCases: [
+                        { industry: "Banking & Financial Services", description: "A fraud detection system where a 'Monitor Agent' flags transactions, an 'Investigator Agent' pulls customer data, and a 'Reporting Agent' summarizes findings for a human analyst." },
+                        { industry: "Insurance", description: "A 'Straight-Through Processing' system for simple property claims with agents for triage, validation, valuation, and payment recommendation." }
+                    ]
+                },
+                {
+                    id: 9,
+                    name: "Computer Use Agent",
+                    maturity: "Run",
+                    definition: "An emerging and highly advanced pattern where a generalist agent interacts directly with a computer's graphical user interface (GUI) to automate tasks across various applications, just as a human would.",
+                    function: "This pattern represents a leap towards general-purpose automation. Instead of relying on pre-built API integrations, this agent can operate any software that has a GUI, filling out forms, manipulating spreadsheets, and navigating websites.",
+                    example: "An agent is asked to find a sales report, create a pivot table, and paste the chart into a presentation, all by visually interacting with the file explorer, spreadsheet, and presentation software.",
+                    useCases: [
+                        { industry: "Healthcare", description: "An agent assists with the prior authorization process by navigating a payer's web portal, logging in, and filling out the required forms with patient data from the EHR for human review." }
+                    ]
+                }
+            ];
+
+            let chart;
+            const state = {
+                maturity: 'All',
+                industry: 'All'
+            };
+
+            const grid = document.getElementById('patterns-grid');
+            const maturityFilters = document.getElementById('maturity-filters');
+            const industryFilter = document.getElementById('industry-filter');
+            const modal = document.getElementById('pattern-modal');
+            const modalContent = modal.querySelector('.modal-content');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            const modalClose = document.getElementById('modal-close');
+
+            const maturityClasses = {
+                Crawl: 'tag-crawl',
+                Walk: 'tag-walk',
+                Run: 'tag-run'
+            };
+
+            function renderPatterns() {
+                grid.innerHTML = '';
+                const filteredData = patternsData.filter(p => {
+                    const maturityMatch = state.maturity === 'All' || p.maturity === state.maturity;
+                    const industryMatch = state.industry === 'All' || p.useCases.some(uc => uc.industry === state.industry);
+                    return maturityMatch && industryMatch;
+                });
+
+                if (filteredData.length === 0) {
+                    grid.innerHTML = `<p class="text-gray-500 col-span-full text-center">No patterns match the selected filters.</p>`;
+                } else {
+                    filteredData.forEach(pattern => {
+                        const card = document.createElement('div');
+                        card.className = 'pattern-card bg-white p-6 rounded-xl border cursor-pointer';
+                        card.dataset.id = pattern.id;
+                        card.innerHTML = `
+                            <div class="flex justify-between items-start">
+                                <h3 class="text-xl font-bold text-gray-900">${pattern.name}</h3>
+                                <span class="text-xs font-semibold px-3 py-1 rounded-full ${maturityClasses[pattern.maturity]}">${pattern.maturity}</span>
+                            </div>
+                            <p class="mt-2 text-gray-600 text-sm">${pattern.definition.substring(0, 120)}...</p>
+                        `;
+                        grid.appendChild(card);
+                    });
+                }
+            }
+
+            function renderChart() {
+                const filteredData = patternsData.filter(p => {
+                    return state.industry === 'All' || p.useCases.some(uc => uc.industry === state.industry);
+                });
+
+                const counts = { Crawl: 0, Walk: 0, Run: 0 };
+                const patternNamesByMaturity = { Crawl: [], Walk: [], Run: [] };
+                filteredData.forEach(p => {
+                    counts[p.maturity]++;
+                    patternNamesByMaturity[p.maturity].push(`- ${p.name}`);
+                });
+
+                const ctx = document.getElementById('patternsChart').getContext('2d');
+                const chartData = {
+                    labels: ['Crawl', 'Walk', 'Run'],
+                    datasets: [{
+                        label: 'Number of Patterns',
+                        data: [counts.Crawl, counts.Walk, counts.Run],
+                        backgroundColor: [
+                            'rgba(62, 146, 88, 0.7)',
+                            'rgba(217, 119, 6, 0.7)',
+                            'rgba(220, 38, 38, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(62, 146, 88, 1)',
+                            'rgba(217, 119, 6, 1)',
+                            'rgba(220, 38, 38, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                };
+
+                const tooltipOptions = {
+                    callbacks: {
+                        label: function(context) {
+                            return ` ${context.dataset.label}: ${context.raw}`;
+                        },
+                        afterBody: function(context) {
+                            const maturity = context[0].label;
+                            const names = patternNamesByMaturity[maturity];
+                            if (names && names.length > 0) {
+                                return ['', 'Patterns:', ...names];
+                            }
+                            return '';
+                        }
+                    }
+                };
+
+                if (chart) {
+                    chart.data = chartData;
+                    chart.options.plugins.tooltip = tooltipOptions;
+                    chart.update();
+                } else {
+                    chart = new Chart(ctx, {
+                        type: 'bar',
+                        data: chartData,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            indexAxis: 'y',
+                            scales: {
+                                x: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        stepSize: 1
+                                    }
+                                },
+                                y: {
+                                    grid: {
+                                        display: false
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                tooltip: tooltipOptions
+                            }
+                        }
+                    });
+                }
+            }
+
+            function showModal(patternId) {
+                const pattern = patternsData.find(p => p.id == patternId);
+                if (!pattern) return;
+
+                modalTitle.textContent = pattern.name;
+                let useCasesHtml = '<p class="text-gray-600">No specific use cases listed for this industry filter.</p>';
+                
+                const relevantUseCases = pattern.useCases.filter(uc => state.industry === 'All' || uc.industry === state.industry);
+
+                if(relevantUseCases.length > 0) {
+                    useCasesHtml = relevantUseCases.map(uc => `
+                        <div class="mt-4 p-4 bg-gray-50 rounded-lg border">
+                            <h5 class="font-semibold text-gray-800">${uc.industry}</h5>
+                            <p class="text-gray-600 mt-1">${uc.description}</p>
+                        </div>
+                    `).join('');
+                }
+
+                modalBody.innerHTML = `
+                    <div class="space-y-6">
+                        <div>
+                            <span class="text-sm font-bold uppercase text-gray-500">Maturity Phase</span>
+                            <p class="mt-1 text-lg font-semibold ${maturityClasses[pattern.maturity]} inline-block px-3 py-1 rounded-full">${pattern.maturity}</p>
+                        </div>
+                        <div>
+                            <span class="text-sm font-bold uppercase text-gray-500">Definition</span>
+                            <p class="mt-1 text-gray-700">${pattern.definition}</p>
+                        </div>
+                        <div>
+                            <span class="text-sm font-bold uppercase text-gray-500">Core Function</span>
+                            <p class="mt-1 text-gray-700">${pattern.function}</p>
+                        </div>
+                        <div>
+                            <span class="text-sm font-bold uppercase text-gray-500">Example</span>
+                            <div class="mt-1 p-4 bg-gray-50 rounded-lg border border-dashed">
+                                <p class="text-gray-700 italic">${pattern.example}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-gray-800">Relevant Enterprise Use Cases</h4>
+                            ${useCasesHtml}
+                        </div>
+                    </div>
+                `;
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modalContent.classList.remove('scale-95');
+            }
+
+            function hideModal() {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                modalContent.classList.add('scale-95');
+            }
+
+            maturityFilters.addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON') {
+                    state.maturity = e.target.dataset.maturity;
+                    maturityFilters.querySelectorAll('button').forEach(btn => {
+                        btn.classList.remove('active', 'bg-blue-600', 'text-white');
+                        btn.classList.add('bg-white', 'text-gray-700');
+                    });
+                    e.target.classList.add('active', 'bg-blue-600', 'text-white');
+                    e.target.classList.remove('bg-white', 'text-gray-700');
+                    renderPatterns();
+                }
+            });
+
+            industryFilter.addEventListener('change', (e) => {
+                state.industry = e.target.value;
+                renderPatterns();
+                renderChart();
+            });
+
+            grid.addEventListener('click', (e) => {
+                const card = e.target.closest('.pattern-card');
+                if (card) {
+                    showModal(card.dataset.id);
+                }
+            });
+
+            modalClose.addEventListener('click', hideModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    hideModal();
+                }
+            });
+
+            // Initial render
+            renderPatterns();
+            renderChart();
+        });
+    </script>
+</body>
+</html>
