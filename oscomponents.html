@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The OutSystems Intelligent Automation Playbook</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Warm Neutrals with Earthy Accents -->
+    <!-- Application Structure Plan: A dashboard-style, single-page application focused on mapping AI patterns to specific OutSystems components. The page first defines the core components (Workflow, AI Agent Builder, Agent Workbench) with visual aids. The main interactive element is a filterable grid of AI patterns. Each pattern is now tagged with the recommended OutSystems component for its implementation. Clicking a card opens a modal with detailed information, including the OutSystems component recommendation and rationale. A dynamic bar chart visualizes the distribution of patterns across these components. This structure is designed to guide architects and developers in selecting the right OutSystems tool for their intelligent automation initiatives. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: OutSystems component definitions. Goal: Inform & Define. Viz/Method: A three-column layout with images and descriptions. Interaction: None. Justification: Provides a clear, foundational understanding of the tools before exploring the patterns. Method: HTML/CSS.
+        - Report Info: The 9 core agentic patterns. Goal: Organize & Relate. Viz/Method: Interactive cards in a CSS grid, now tagged by OutSystems component. Interaction: Click to open a detail modal. Justification: Directly connects abstract patterns to concrete implementation tools. Method: HTML/CSS/JS.
+        - Report Info: Mapping patterns to components. Goal: Compare & Guide. Viz/Method: A dynamic bar chart showing pattern distribution across OutSystems components. Interaction: Chart updates based on industry filters. Justification: Gives a high-level view of which tools are suited for which types of patterns. Library: Chart.js.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <style>
+        body {
+            background-color: #FDFBF7;
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 250px;
+            max-height: 300px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 300px;
+                max-height: 350px;
+            }
+        }
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+        .modal-content {
+            transition: transform 0.25s ease;
+        }
+        .pattern-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .pattern-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .tag-workflow { background-color: #E0E7FF; color: #4338CA; }
+        .tag-builder { background-color: #D1FAE5; color: #065F46; }
+        .tag-workbench { background-color: #FEFCE8; color: #854D0E; }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="text-gray-800">
+
+    <div id="app" class="container mx-auto p-4 md:p-8">
+        
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">The OutSystems Intelligent Automation Playbook</h1>
+            <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">A guide to implementing AI Agentic Patterns with OutSystems Workflows, AI Agent Builder, and Agent Workbench.</p>
+        </header>
+
+        <main>
+            <!-- Component Definitions Section -->
+            <section id="component-definitions" class="mb-12">
+                <h2 class="text-2xl font-bold text-center mb-8 text-gray-800">OutSystems Implementation Framework</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-white p-6 rounded-xl border flex flex-col items-center">
+                        <img src="https://iili.io/F6KU62n.png" alt="OutSystems Workflow" class="h-24 w-auto mb-4 p-2">
+                        <h3 class="text-lg font-bold text-gray-900">When to use Workflow</h3>
+                        <p class="mt-2 text-gray-600 text-sm">Use for structured, deterministic business processes. Ideal for orchestrating a sequence of automated tasks and human approvals where the rules are clear and the path is predictable.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border flex flex-col items-center">
+                        <img src="https://iili.io/F6KUP7s.png" alt="AI Agent Builder" class="h-24 w-auto mb-4 p-2">
+                        <h3 class="text-lg font-bold text-gray-900">When to use AI Agent Builder</h3>
+                        <p class="mt-2 text-gray-600 text-sm">Use for creating simple, no-code conversational agents. Perfect for RAG use cases where the agent's primary function is to answer questions based on a specific set of documents or knowledge base.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border flex flex-col items-center">
+                        <img src="https://iili.io/F6Keeaf.png" alt="Agent Workbench" class="h-24 w-auto mb-4 p-2">
+                        <h3 class="text-lg font-bold text-gray-900">When to use Agent Workbench</h3>
+                        <p class="mt-2 text-gray-600 text-sm">Use for complex, low-code agents that require custom reasoning, tool use, and orchestration. The choice for building autonomous agents that can perform actions and collaborate with other agents.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Filters Section -->
+            <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 sticky top-4 z-10 shadow-sm mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="font-semibold text-gray-700 mb-2 block">Filter by OutSystems Component:</label>
+                        <div id="component-filters" class="flex flex-wrap gap-2">
+                            <button class="filter-btn-component active bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium" data-component="All">All Components</button>
+                            <button class="filter-btn-component bg-white hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-medium border" data-component="Workflow">Workflow</button>
+                            <button class="filter-btn-component bg-white hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-medium border" data-component="AI Agent Builder">AI Agent Builder</button>
+                            <button class="filter-btn-component bg-white hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-medium border" data-component="Agent Workbench">Agent Workbench</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="industry-filter" class="font-semibold text-gray-700 mb-2 block">Filter by Industry:</label>
+                        <select id="industry-filter" class="w-full p-2 border rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                            <option value="All">All Industries</option>
+                            <option value="Banking & Financial Services">Banking & Financial Services</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Telecommunications">Telecommunications</option>
+                            <option value="Insurance">Insurance</option>
+                            <option value="Investment Management">Investment Management</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart Section -->
+            <section id="chart-section" class="mb-12">
+                 <h2 class="text-2xl font-bold text-center mb-4 text-gray-800">Pattern Distribution by Component</h2>
+                 <p class="text-center text-gray-600 mb-4">This chart shows the number of patterns suited for each OutSystems component, updated by your industry filter.</p>
+                <div class="chart-container bg-white p-4 rounded-xl shadow-sm">
+                    <canvas id="patternsChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Patterns Grid Section -->
+            <section id="patterns-section">
+                <h2 class="text-2xl font-bold text-center mb-8 text-gray-800">AI Agentic Patterns</h2>
+                <div id="patterns-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Pattern cards will be injected here by JavaScript -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div id="pattern-modal" class="modal fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none">
+        <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto transform scale-95">
+            <div class="sticky top-0 bg-white p-4 border-b z-10 flex justify-between items-center">
+                <h3 id="modal-title" class="text-2xl font-bold"></h3>
+                <button id="modal-close" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+            </div>
+            <div id="modal-body" class="p-6 md:p-8">
+                <!-- Modal content will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const patternsData = [
+                {
+                    id: 1,
+                    name: "Prompt Chaining",
+                    outsystemsComponent: "Workflow",
+                    definition: "A workflow that breaks a task into a linear sequence of steps, where each Large Language Model (LLM) call processes the output of the previous one.",
+                    useCases: [
+                        { industry: "Insurance", description: "Guide a FNOL intake process, ensuring all required information is collected sequentially." },
+                        { industry: "Investment Management", description: "Generate a draft of a weekly market summary report in sequential steps." }
+                    ]
+                },
+                {
+                    id: 2,
+                    name: "Routing",
+                    outsystemsComponent: "Workflow",
+                    definition: "A workflow that uses an initial LLM call or classification to direct an input to one of several specialized downstream tasks.",
+                    useCases: [
+                        { industry: "Banking & Financial Services", description: "Triage customer service emails into 'Payment Dispute' or 'Loan Application' queues." },
+                        { industry: "Telecommunications", description: "A chatbot triages technical support requests into 'Billing' or 'Network Outage' categories." }
+                    ]
+                },
+                {
+                    id: 3,
+                    name: "Parallelization",
+                    outsystemsComponent: "Workflow",
+                    definition: "A workflow where multiple processes run simultaneously, with their outputs being aggregated programmatically.",
+                     useCases: [
+                        { industry: "Healthcare", description: "Multiple LLM instances review a draft radiology report to flag discrepancies by consensus." }
+                    ]
+                },
+                {
+                    id: 4,
+                    name: "Orchestrator-Worker",
+                    outsystemsComponent: "Agent Workbench",
+                    definition: "A system where a central 'orchestrator' agent dynamically breaks down a complex task and delegates subtasks to specialized 'worker' agents.",
+                    useCases: [
+                         { industry: "Telecommunications", description: "A 'Service Provisioning Orchestrator' agent manages the end-to-end process for a new customer." }
+                    ]
+                },
+                {
+                    id: 5,
+                    name: "Evaluator-Optimizer",
+                    outsystemsComponent: "Agent Workbench",
+                    definition: "A workflow that creates an iterative feedback loop where one agent critiques and refines another's output.",
+                    useCases: [
+                        { industry: "Healthcare", description: "An agent drafts a patient's discharge summary; an evaluator agent critiques it against a clinical checklist." },
+                        { industry: "Investment Management", description: "An agent proposes portfolio trades; an evaluator agent checks them against the client's IPS." }
+                    ]
+                },
+                {
+                    id: 6,
+                    name: "Agentic RAG",
+                    outsystemsComponent: "AI Agent Builder",
+                    definition: "An agent uses reasoning to perform dynamic, multi-step information gathering from multiple sources before synthesizing an answer.",
+                    useCases: [
+                        { industry: "Banking & Financial Services", description: "An agent assists compliance officers by searching internal policy documents and external regulations." },
+                        { industry: "Insurance", description: "An agent assists a claims adjuster by synthesizing information from the policy, police reports, and repair estimates." }
+                    ]
+                },
+                {
+                    id: 7,
+                    name: "Tool-Calling Agent",
+                    outsystemsComponent: "Agent Workbench",
+                    definition: "An agent can dynamically select and execute external functions (tools) based on the context of a task.",
+                    useCases: [
+                         { industry: "Telecommunications", description: "A support agent for a technician that can run diagnostics by calling internal APIs (tools)." }
+                    ]
+                },
+                {
+                    id: 8,
+                    name: "Multi-Agent Systems (MAS)",
+                    outsystemsComponent: "Agent Workbench",
+                    definition: "Sophisticated architectures where multiple specialized, autonomous agents collaborate to handle complex tasks.",
+                    useCases: [
+                        { industry: "Banking & Financial Services", description: "A fraud detection system with 'Monitor', 'Investigator', and 'Reporting' agents." },
+                        { industry: "Insurance", description: "A 'Straight-Through Processing' system for claims with agents for triage, validation, and valuation." }
+                    ]
+                },
+                {
+                    id: 9,
+                    name: "Computer Use Agent",
+                    outsystemsComponent: "Agent Workbench",
+                    definition: "A generalist agent that interacts directly with a computer's graphical user interface (GUI) to automate tasks across applications.",
+                    useCases: [
+                        { industry: "Healthcare", description: "An agent assists with prior authorization by navigating a payer's web portal and filling out forms." }
+                    ]
+                }
+            ];
+
+            let chart;
+            const state = {
+                component: 'All',
+                industry: 'All'
+            };
+
+            const grid = document.getElementById('patterns-grid');
+            const componentFilters = document.getElementById('component-filters');
+            const industryFilter = document.getElementById('industry-filter');
+            const modal = document.getElementById('pattern-modal');
+            const modalContent = modal.querySelector('.modal-content');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            const modalClose = document.getElementById('modal-close');
+
+            const componentClasses = {
+                "Workflow": 'tag-workflow',
+                "AI Agent Builder": 'tag-builder',
+                "Agent Workbench": 'tag-workbench'
+            };
+            
+            const componentRationale = {
+                "Workflow": "This pattern involves a predictable, sequential flow of tasks. OutSystems Workflow is the ideal tool for orchestrating this kind of structured process, calling other services or simple agents for specific steps.",
+                "AI Agent Builder": "This pattern is centered on answering questions from a knowledge base (RAG). The AI Agent Builder is specifically designed for this no-code use case, enabling rapid development of conversational AI.",
+                "Agent Workbench": "This pattern requires complex, dynamic reasoning, the ability to use tools (APIs), or collaboration between multiple agents. The Agent Workbench provides the necessary low-code power and flexibility to build and govern these sophisticated, autonomous solutions."
+            };
+
+            function renderPatterns() {
+                grid.innerHTML = '';
+                const filteredData = patternsData.filter(p => {
+                    const componentMatch = state.component === 'All' || p.outsystemsComponent === state.component;
+                    const industryMatch = state.industry === 'All' || p.useCases.some(uc => uc.industry === state.industry);
+                    return componentMatch && industryMatch;
+                });
+
+                if (filteredData.length === 0) {
+                    grid.innerHTML = `<p class="text-gray-500 col-span-full text-center">No patterns match the selected filters.</p>`;
+                } else {
+                    filteredData.forEach(pattern => {
+                        const card = document.createElement('div');
+                        card.className = 'pattern-card bg-white p-6 rounded-xl border cursor-pointer';
+                        card.dataset.id = pattern.id;
+                        card.innerHTML = `
+                            <div class="flex justify-between items-start">
+                                <h3 class="text-xl font-bold text-gray-900">${pattern.name}</h3>
+                                <span class="text-xs font-semibold px-3 py-1 rounded-full ${componentClasses[pattern.outsystemsComponent]}">${pattern.outsystemsComponent}</span>
+                            </div>
+                            <p class="mt-2 text-gray-600 text-sm">${pattern.definition.substring(0, 120)}...</p>
+                        `;
+                        grid.appendChild(card);
+                    });
+                }
+            }
+
+            function renderChart() {
+                const filteredData = patternsData.filter(p => {
+                    return state.industry === 'All' || p.useCases.some(uc => uc.industry === state.industry);
+                });
+
+                const counts = { "Workflow": 0, "AI Agent Builder": 0, "Agent Workbench": 0 };
+                filteredData.forEach(p => {
+                    counts[p.outsystemsComponent]++;
+                });
+
+                const ctx = document.getElementById('patternsChart').getContext('2d');
+                const chartData = {
+                    labels: ['Workflow', 'AI Agent Builder', 'Agent Workbench'],
+                    datasets: [{
+                        label: '# of Patterns',
+                        data: [counts.Workflow, counts['AI Agent Builder'], counts['Agent Workbench']],
+                        backgroundColor: [
+                            'rgba(67, 56, 202, 0.7)',
+                            'rgba(6, 95, 70, 0.7)',
+                            'rgba(133, 77, 14, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(67, 56, 202, 1)',
+                            'rgba(6, 95, 70, 1)',
+                            'rgba(133, 77, 14, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                };
+
+                if (chart) {
+                    chart.data = chartData;
+                    chart.update();
+                } else {
+                    chart = new Chart(ctx, {
+                        type: 'bar',
+                        data: chartData,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            indexAxis: 'y',
+                            scales: {
+                                x: { beginAtZero: true, ticks: { stepSize: 1 } },
+                                y: { grid: { display: false } }
+                            },
+                            plugins: {
+                                legend: { display: false },
+                            }
+                        }
+                    });
+                }
+            }
+
+            function showModal(patternId) {
+                const pattern = patternsData.find(p => p.id == patternId);
+                if (!pattern) return;
+
+                modalTitle.textContent = pattern.name;
+                let useCasesHtml = '<p class="text-gray-600">No specific use cases listed for this industry filter.</p>';
+                
+                const relevantUseCases = pattern.useCases.filter(uc => state.industry === 'All' || uc.industry === state.industry);
+
+                if(relevantUseCases.length > 0) {
+                    useCasesHtml = relevantUseCases.map(uc => `
+                        <div class="mt-4 p-4 bg-gray-50 rounded-lg border">
+                            <h5 class="font-semibold text-gray-800">${uc.industry}</h5>
+                            <p class="text-gray-600 mt-1">${uc.description}</p>
+                        </div>
+                    `).join('');
+                }
+
+                modalBody.innerHTML = `
+                    <div class="space-y-6">
+                        <div>
+                            <span class="text-sm font-bold uppercase text-gray-500">Recommended OutSystems Component</span>
+                            <div class="mt-2 p-4 rounded-lg ${componentClasses[pattern.outsystemsComponent]} bg-opacity-20 border ${componentClasses[pattern.outsystemsComponent].replace('bg', 'border').replace('text', 'border')}">
+                                <h4 class="font-bold text-lg ${componentClasses[pattern.outsystemsComponent].replace('bg', 'text')}">${pattern.outsystemsComponent}</h4>
+                                <p class="mt-1 text-sm text-gray-700">${componentRationale[pattern.outsystemsComponent]}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-sm font-bold uppercase text-gray-500">Pattern Definition</span>
+                            <p class="mt-1 text-gray-700">${pattern.definition}</p>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-gray-800">Relevant Enterprise Use Cases</h4>
+                            ${useCasesHtml}
+                        </div>
+                    </div>
+                `;
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modalContent.classList.remove('scale-95');
+            }
+
+            function hideModal() {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                modalContent.classList.add('scale-95');
+            }
+
+            componentFilters.addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON') {
+                    state.component = e.target.dataset.component;
+                    componentFilters.querySelectorAll('button').forEach(btn => {
+                        btn.classList.remove('active', 'bg-blue-600', 'text-white');
+                        btn.classList.add('bg-white', 'text-gray-700');
+                    });
+                    e.target.classList.add('active', 'bg-blue-600', 'text-white');
+                    e.target.classList.remove('bg-white', 'text-gray-700');
+                    renderPatterns();
+                }
+            });
+
+            industryFilter.addEventListener('change', (e) => {
+                state.industry = e.target.value;
+                renderPatterns();
+                renderChart();
+            });
+
+            grid.addEventListener('click', (e) => {
+                const card = e.target.closest('.pattern-card');
+                if (card) {
+                    showModal(card.dataset.id);
+                }
+            });
+
+            modalClose.addEventListener('click', hideModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    hideModal();
+                }
+            });
+
+            // Initial render
+            renderPatterns();
+            renderChart();
+        });
+    </script>
+</body>
+</html>
