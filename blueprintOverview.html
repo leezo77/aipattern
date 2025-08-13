@@ -25,6 +25,36 @@
             color: #3730a3;
             font-weight: 600;
         }
+        /* Flip card styles */
+        .flip-card {
+            background-color: transparent;
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: left;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            min-height: 280px; /* Adjusted height to prevent overlap */
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -109,10 +139,108 @@
                  <section id="part3" class="mb-16 scroll-mt-24">
                     <h2 class="text-3xl font-bold text-gray-900 mb-2">Part III: The Implementation Roadmap</h2>
                     <p class="text-gray-600 mb-8">The "Crawl, Walk, Run" Maturity Model — Delivering value incrementally to manage risk and complexity.</p>
-                    <div class="grid grid-cols-1 gap-6">
-                        <div class="bg-white p-6 rounded-xl border border-gray-200">
-                            <h3 class="font-semibold text-lg mb-2 text-gray-800">8. Defining the Maturity Phases</h3>
-                            <p class="text-gray-600 text-sm">Use a maturity matrix to map the solution's evolution across dimensions like features, AI complexity, data, autonomy, testing, and security for each phase.</p>
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="font-semibold text-xl mb-4 text-gray-800">8. Defining the Maturity Phases</h3>
+                            <p class="text-gray-600 mb-6">Click on each dimension to see how capabilities evolve from a simple MVP to a fully optimized solution.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <!-- Flip Card: Business Scope -->
+                                <div class="flip-card cursor-pointer" onclick="this.classList.toggle('flipped')">
+                                    <div class="flip-card-inner">
+                                        <div class="flip-card-front bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                                            <h4 class="font-semibold text-lg text-indigo-700">Business Scope & Features</h4>
+                                            <p class="text-gray-500 mt-2">How the solution's functionality and reach expand over time.</p>
+                                        </div>
+                                        <div class="flip-card-back bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                                            <dl class="space-y-3">
+                                                <div><dt class="font-semibold text-sm text-gray-800">Crawl:</dt><dd class="text-sm text-gray-600 pl-2">- Automate document classification & data extraction for top 3 claim types. AI acts as an assistant.</dd></div>
+                                                <div><dt class="font-semibold text-sm text-gray-800">Walk:</dt><dd class="text-sm text-gray-600 pl-2">- Expand to all claim types. AI decision support for simple cases (human-in-the-loop). Launch basic claimant status portal.</dd></div>
+                                                <div><dt class="font-semibold text-sm text-gray-800">Run:</dt><dd class="text-sm text-gray-600 pl-2">- End-to-end automation for most claims. Autonomous approval for low-risk/low-value cases. Predictive analytics for appeal risk.</dd></div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Flip Card: AI/Model Complexity -->
+                                <div class="flip-card cursor-pointer" onclick="this.classList.toggle('flipped')">
+                                    <div class="flip-card-inner">
+                                        <div class="flip-card-front bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                                            <h4 class="font-semibold text-lg text-indigo-700">AI/Model Complexity</h4>
+                                            <p class="text-gray-500 mt-2">The evolution of AI capabilities from simple models to sophisticated agents.</p>
+                                        </div>
+                                        <div class="flip-card-back bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                                            <dl class="space-y-3">
+                                                <div><dt class="font-semibold text-sm text-gray-800">Crawl:</dt><dd class="text-sm text-gray-600 pl-2">- Single, simple models (e.g., document classifier). Basic prompting via API.</dd></div>
+                                                <div><dt class="font-semibold text-sm text-gray-800">Walk:</dt><dd class="text-sm text-gray-600 pl-2">- Multiple coordinated agents. Fine-tuning models on TPD data. Basic RAG for decision support.</dd></div>
+                                                <div><dt class="font-semibold text-sm text-gray-800">Run:</dt><dd class="text-sm text-gray-600 pl-2">- Sophisticated ecosystem of specialized agents with multi-step reasoning. Self-improving models.</dd></div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Flip Card: Human-AI Interaction -->
+                                <div class="flip-card cursor-pointer" onclick="this.classList.toggle('flipped')">
+                                    <div class="flip-card-inner">
+                                        <div class="flip-card-front bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                                            <h4 class="font-semibold text-lg text-indigo-700">Human-AI Interaction</h4>
+                                            <p class="text-gray-500 mt-2">How the relationship between humans and AI matures from assistant to supervisor.</p>
+                                        </div>
+                                        <div class="flip-card-back bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                                            <dl class="space-y-3">
+                                                <div><dt class="font-semibold text-sm text-gray-800">Crawl (Assistant):</dt><dd class="text-sm text-gray-600 pl-2">- Provides data for 100% human review. Humans drive the process.</dd></div>
+                                                <div><dt class="font-semibold text-sm text-gray-800">Walk (Collaborator):</dt><dd class="text-sm text-gray-600 pl-2">- Automates the "happy path." Humans handle all exceptions.</dd></div>
+                                                <div><dt class="font-semibold text-sm text-gray-800">Run (Supervisor):</dt><dd class="text-sm text-gray-600 pl-2">- Manages the end-to-end process. Humans are in the loop only for high-risk/empathy decisions.</dd></div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Flip Card: Testing & Evaluation -->
+                                <div class="flip-card cursor-pointer" onclick="this.classList.toggle('flipped')">
+                                    <div class="flip-card-inner">
+                                        <div class="flip-card-front bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                                            <h4 class="font-semibold text-lg text-indigo-700">Testing & Evaluation</h4>
+                                            <p class="text-gray-500 mt-2">The increasing rigor of quality assurance from manual checks to comprehensive automation.</p>
+                                        </div>
+                                        <div class="flip-card-back bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                                            <dl class="space-y-3">
+                                                <div><dt class="font-semibold text-sm text-gray-800">Crawl:</dt><dd class="text-sm text-gray-600 pl-2">- Manual testing of core paths. Basic model accuracy metrics (Precision/Recall).</dd></div>
+                                                <div><dt class="font-semibold text-sm text-gray-800">Walk:</dt><dd class="text-sm text-gray-600 pl-2">- Automated regression test suite. Slice-based evaluation for bias. Basic agent performance tests.</dd></div>
+                                                <div><dt class="font-semibold text-sm text-gray-800">Run:</dt><dd class="text-sm text-gray-600 pl-2">- Comprehensive, automated evaluation suite including adversarial, bias, and fairness testing.</dd></div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Flip Card: Observability & Monitoring -->
+                                <div class="flip-card cursor-pointer" onclick="this.classList.toggle('flipped')">
+                                    <div class="flip-card-inner">
+                                        <div class="flip-card-front bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                                            <h4 class="font-semibold text-lg text-indigo-700">Observability & Monitoring</h4>
+                                            <p class="text-gray-500 mt-2">Gaining deeper visibility into the system's performance and behavior in production.</p>
+                                        </div>
+                                        <div class="flip-card-back bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                                             <dl class="space-y-3">
+                                                <div><dt class="font-semibold text-sm text-gray-800">Crawl:</dt><dd class="text-sm text-gray-600 pl-2">- Basic application logging (CPU, memory, errors). Manual log review.</dd></div>
+                                                <div><dt class="font-semibold text-sm text-gray-800">Walk:</dt><dd class="text-sm text-gray-600 pl-2">- Structured logging. Centralized dashboard for key KPIs. Basic alerting on thresholds.</dd></div>
+                                                <div><dt class="font-semibold text-sm text-gray-800">Run:</dt><dd class="text-sm text-gray-600 pl-2">- Full-stack, multi-layered AI observability. Automated detection for model and data drift.</dd></div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Flip Card: Security & Governance -->
+                                <div class="flip-card cursor-pointer" onclick="this.classList.toggle('flipped')">
+                                    <div class="flip-card-inner">
+                                        <div class="flip-card-front bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                                            <h4 class="font-semibold text-lg text-indigo-700">Security & Governance</h4>
+                                            <p class="text-gray-500 mt-2">Embedding security, privacy, and compliance into the solution from day one.</p>
+                                        </div>
+                                        <div class="flip-card-back bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                                            <dl class="space-y-3">
+                                                <div><dt class="font-semibold text-sm text-gray-800">Crawl:</dt><dd class="text-sm text-gray-600 pl-2">- Standard corporate security controls. Basic Role-Based Access Control (RBAC).</dd></div>
+                                                <div><dt class="font-semibold text-sm text-gray-800">Walk:</dt><dd class="text-sm text-gray-600 pl-2">- VNet isolation for cloud services. Automated PII scanning. Formal threat modeling.</dd></div>
+                                                <div><dt class="font-semibold text-sm text-gray-800">Run:</dt><dd class="text-sm text-gray-600 pl-2">- Zero Trust architecture. Real-time monitoring for threats (e.g., prompt injection) and data leakage. Continuous bias monitoring.</dd></div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="bg-white p-6 rounded-xl border border-gray-200">
                             <h3 class="font-semibold text-lg mb-2 text-gray-800">9. Phased Release & MLOps Strategy</h3>
