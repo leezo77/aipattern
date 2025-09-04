@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The AI-Ready Organization - Enterprise AI Framework</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Warm Neutrals with Earthy Accents -->
+    <!-- Application Structure Plan: A single-page guide that maps emerging AI-related roles and personas to the Crawl, Walk, Run maturity framework. The page is structured into three main sections, one for each maturity phase. Each section defines the organizational mindset and then details the key personas present at that stage, including their focus and how to engage them. A final section covers foundational roles that evolve across all three phases. This structure directly addresses the user's need to identify the target audience and understand team capabilities at different levels of AI adoption. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Organizational maturity concept. Goal: Inform & Organize. Viz/Method: Three distinct, color-coded columns for Crawl, Walk, and Run. Interaction: None. Justification: Provides a clear, scannable structure that aligns with the established framework. Method: HTML/CSS.
+        - Report Info: Research on new AI roles. Goal: Define & Characterize. Viz/Method: Persona cards within each maturity column, featuring icons, descriptions, and bullet points. Interaction: None. Justification: Breaks down complex role information into digestible chunks, making it easy to understand the key players at each stage. Method: HTML/CSS.
+        - Report Info: How to engage different personas. Goal: Guide & Action. Viz/Method: A dedicated "How to Engage Them" section for each persona. Justification: Makes the page an actionable tool for sales, marketing, and internal champions. Method: HTML/CSS.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <style>
+        body {
+            background-color: #FDFBF7;
+            font-family: 'Inter', sans-serif;
+        }
+        .phase-section {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .persona-card {
+            background-color: #f9fafb;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            border: 1px solid #e5e7eb;
+        }
+        .crawl-bg { background-color: #F0FDF4; border-color: #D1FAE5; }
+        .walk-bg { background-color: #FEFCE8; border-color: #FEF08A; }
+        .run-bg { background-color: #FFF1F2; border-color: #FECDD3; }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        
+        <header class="text-center my-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900">The AI-Ready Organization</h1>
+            <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">A Maturity Framework for Roles & Personas. Understand who to engage at each stage of the AI adoption journey.</p>
+        </header>
+
+        <main>
+            <!-- Introduction -->
+            <section class="phase-section">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">It's Not Just About Technology, It's About People</h2>
+                <p class="text-gray-600">An organization's AI maturity isn't just defined by its technology stack; it's reflected in its team structure and the roles it cultivates. As a company progresses from simple experiments (Crawl) to integrated solutions (Walk) and finally to strategic, autonomous systems (Run), the key personas you need to engage with will change. This guide identifies who these people are, what they care about, and how to build a maturity framework that includes not just the solution, but the team behind it.</p>
+            </section>
+
+            <!-- Maturity Phases -->
+            <div class="space-y-8">
+                <!-- CRAWL -->
+                <section id="crawl" class="phase-section crawl-bg">
+                    <h2 class="text-3xl font-bold text-green-800 mb-2">Crawl: Exploration & Enablement</h2>
+                    <p class="mb-6 text-green-700">The organization is in an experimental phase, focused on low-risk, high-visibility projects to prove the value of AI. The goal is to learn, build foundational skills, and identify viable use cases. Teams are often informal and cross-functional.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="persona-card">
+                            <h3 class="font-bold text-lg flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                The Business Analyst / Data Analyst
+                            </h3>
+                            <p class="text-sm text-gray-600 mt-2">A data-savvy professional from a business unit who understands a specific domain's challenges and data assets. They are tasked with finding opportunities for AI.</p>
+                            <h4 class="font-semibold mt-4 mb-2">Primary Focus:</h4>
+                            <ul class="text-sm list-disc list-inside space-y-1">
+                                <li>Identifying high-value, low-complexity use cases.</li>
+                                <li>Understanding and preparing data for initial PoCs.</li>
+                                <li>Measuring the business impact of pilot projects.</li>
+                            </ul>
+                            <h4 class="font-semibold mt-4 mb-2">How to Engage Them:</h4>
+                            <p class="text-sm text-gray-700">With practical, easy-to-understand tools and success stories relevant to their specific business domain.</p>
+                        </div>
+                        <div class="persona-card">
+                            <h3 class="font-bold text-lg flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                                The Citizen Developer
+                            </h3>
+                            <p class="text-sm text-gray-600 mt-2">A tech-curious business user empowered by low-code/no-code platforms. They build simple applications and automations to solve immediate problems for their team.</p>
+                             <h4 class="font-semibold mt-4 mb-2">Primary Focus:</h4>
+                            <ul class="text-sm list-disc list-inside space-y-1">
+                                <li>Rapidly building simple AI-powered apps (e.g., RAG chatbots).</li>
+                                <li>Automating repetitive tasks within their department.</li>
+                                <li>Demonstrating quick wins with tangible results.</li>
+                            </ul>
+                            <h4 class="font-semibold mt-4 mb-2">How to Engage Them:</h4>
+                             <p class="text-sm text-gray-700">With no-code tools like AI Agent Builder, clear tutorials, and a focus on speed-to-value.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- WALK -->
+                <section id="walk" class="phase-section walk-bg">
+                    <h2 class="text-3xl font-bold text-yellow-800 mb-2">Walk: Operationalization & Scaling</h2>
+                    <p class="mb-6 text-yellow-700">The organization has seen initial success and is now focused on building robust, scalable AI solutions for core business processes. This phase is about creating dedicated teams, formalizing processes, and moving from PoCs to production systems.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                         <div class="persona-card">
+                            <h3 class="font-bold text-lg flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                                The AI Engineer
+                            </h3>
+                            <p class="text-sm text-gray-600 mt-2">A specialized software engineer who designs, builds, and deploys production-grade AI systems. They bridge the gap between ML models and scalable software applications.</p>
+                            <h4 class="font-semibold mt-4 mb-2">Primary Focus:</h4>
+                            <ul class="text-sm list-disc list-inside space-y-1">
+                                <li>Integrating AI models into business applications via APIs.</li>
+                                <li>Building data pipelines and agentic reasoning loops.</li>
+                                <li>Ensuring solutions are scalable, reliable, and secure.</li>
+                            </ul>
+                            <h4 class="font-semibold mt-4 mb-2">How to Engage Them:</h4>
+                            <p class="text-sm text-gray-700">With low-code/pro-code tools like Agent Workbench, robust APIs, and clear architectural patterns.</p>
+                        </div>
+                         <div class="persona-card">
+                            <h3 class="font-bold text-lg flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                                The MLOps Engineer
+                            </h3>
+                            <p class="text-sm text-gray-600 mt-2">A role that combines Machine Learning, DevOps, and Data Engineering. They are responsible for automating the deployment, monitoring, and management of the ML model lifecycle.</p>
+                            <h4 class="font-semibold mt-4 mb-2">Primary Focus:</h4>
+                            <ul class="text-sm list-disc list-inside space-y-1">
+                                <li>Building CI/CD pipelines for models and AI applications.</li>
+                                <li>Monitoring model performance, drift, and cost in production.</li>
+                                <li>Ensuring the entire AI system is observable and reliable.</li>
+                            </ul>
+                            <h4 class="font-semibold mt-4 mb-2">How to Engage Them:</h4>
+                            <p class="text-sm text-gray-700">With platforms that offer built-in observability, versioning, and automated deployment capabilities.</p>
+                        </div>
+                         <div class="persona-card">
+                            <h3 class="font-bold text-lg flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                                The Prompt Engineer / Conversation Designer
+                            </h3>
+                            <p class="text-sm text-gray-600 mt-2">A specialist who crafts, refines, and optimizes the natural language prompts used to guide AI models. They ensure the AI's responses are accurate, helpful, and on-brand.</p>
+                             <h4 class="font-semibold mt-4 mb-2">Primary Focus:</h4>
+                            <ul class="text-sm list-disc list-inside space-y-1">
+                                <li>Designing effective prompt chains and agent instructions.</li>
+                                <li>Testing and evaluating the quality of LLM outputs.</li>
+                                <li>Curating datasets for fine-tuning models.</li>
+                            </ul>
+                            <h4 class="font-semibold mt-4 mb-2">How to Engage Them:</h4>
+                            <p class="text-sm text-gray-700">With tools that provide playgrounds for prompt testing, version control for prompts, and detailed analytics on AI performance.</p>
+                        </div>
+                        <div class="persona-card">
+                            <h3 class="font-bold text-lg flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                                The AI Governance & Ethics Specialist
+                            </h3>
+                            <p class="text-sm text-gray-600 mt-2">A role focused on ensuring that AI systems are developed and used responsibly. They establish policies for fairness, transparency, privacy, and compliance.</p>
+                             <h4 class="font-semibold mt-4 mb-2">Primary Focus:</h4>
+                            <ul class="text-sm list-disc list-inside space-y-1">
+                                <li>Conducting bias and fairness audits on models.</li>
+                                <li>Ensuring compliance with data privacy regulations (GDPR, etc.).</li>
+                                <li>Defining guidelines for responsible AI use.</li>
+                            </ul>
+                            <h4 class="font-semibold mt-4 mb-2">How to Engage Them:</h4>
+                             <p class="text-sm text-gray-700">With platforms that provide transparency, explainability features, and tools for monitoring bias and data leakage.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- RUN -->
+                <section id="run" class="phase-section run-bg">
+                    <h2 class="text-3xl font-bold text-red-800 mb-2">Run: Strategic Autonomy & Transformation</h2>
+                    <p class="mb-6 text-red-700">AI is deeply integrated into the enterprise strategy and is driving business transformation. The focus is on building complex, multi-agent systems, fostering a culture of AI-driven innovation, and managing a portfolio of intelligent solutions.</p>
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="persona-card">
+                            <h3 class="font-bold text-lg flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9V3m0 18a9 9 0 009-9M3 12a9 9 0 019-9m-9 9h18" /></svg>
+                                The AI Strategist / Chief AI Officer (CAIO)
+                            </h3>
+                            <p class="text-sm text-gray-600 mt-2">A senior leader responsible for the enterprise-wide AI strategy. They align AI initiatives with business goals and oversee the entire AI portfolio.</p>
+                            <h4 class="font-semibold mt-4 mb-2">Primary Focus:</h4>
+                            <ul class="text-sm list-disc list-inside space-y-1">
+                                <li>Defining the vision for AI across the organization.</li>
+                                <li>Securing budget and resources for large-scale AI projects.</li>
+                                <li>Managing the portfolio of AI solutions to maximize ROI.</li>
+                                <li>Building an AI-first culture.</li>
+                            </ul>
+                             <h4 class="font-semibold mt-4 mb-2">How to Engage Them:</h4>
+                            <p class="text-sm text-gray-700">With strategic frameworks, total cost of ownership (TCO) models, and case studies demonstrating transformational business impact.</p>
+                        </div>
+                         <div class="persona-card">
+                            <h3 class="font-bold text-lg flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                                The AI Architect
+                            </h3>
+                            <p class="text-sm text-gray-600 mt-2">The senior technical authority responsible for designing the overall architecture for complex, multi-agent AI systems and ensuring they integrate with the enterprise ecosystem.</p>
+                            <h4 class="font-semibold mt-4 mb-2">Primary Focus:</h4>
+                            <ul class="text-sm list-disc list-inside space-y-1">
+                                <li>Designing scalable, resilient, and secure AI platforms.</li>
+                                <li>Selecting the right combination of models, tools, and frameworks.</li>
+                                <li>Governing the technical standards for all AI development.</li>
+                            </ul>
+                            <h4 class="font-semibold mt-4 mb-2">How to Engage Them:</h4>
+                            <p class="text-sm text-gray-700">With comprehensive platform documentation, performance benchmarks, and detailed architectural blueprints.</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Evolving Roles -->
+                <section class="phase-section">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Evolving Foundational Roles</h2>
+                    <p class="text-gray-600 mb-6">Some roles are present across all phases, but their focus and sophistication grow with the organization's maturity.</p>
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="persona-card">
+                            <h3 class="font-bold text-lg flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                                The AI Product Manager
+                            </h3>
+                            <p class="text-sm text-gray-600 mt-2">Owns the 'what' and 'why' of an AI product. Their role evolves from managing single features to overseeing complex, autonomous systems.</p>
+                             <ul class="text-sm list-disc list-inside space-y-1 mt-4">
+                                <li><strong>Crawl:</strong> Defines requirements for simple PoCs.</li>
+                                <li><strong>Walk:</strong> Manages the roadmap for a production AI application.</li>
+                                <li><strong>Run:</strong> Manages a portfolio of interconnected AI agents and systems.</li>
+                            </ul>
+                        </div>
+                        <div class="persona-card">
+                            <h3 class="font-bold text-lg flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-1.026.977-2.17.977-3.332 0-4.418-4.03-8-9-8S3 6.582 3 11m18 0h-2.28a4.5 4.5 0 00-7.94 0H3" /></svg>
+                                The Solution Architect
+                            </h3>
+                            <p class="text-sm text-gray-600 mt-2">Designs how the AI solution fits within the broader enterprise IT landscape. Their scope expands from single applications to entire platforms.</p>
+                             <ul class="text-sm list-disc list-inside space-y-1 mt-4">
+                                <li><strong>Crawl:</strong> Designs the integration for a single AI PoC.</li>
+                                <li><strong>Walk:</strong> Architects a scalable AI service for a business unit.</li>
+                                <li><strong>Run:</strong> Designs the enterprise-wide AI platform and data fabric.</li>
+                            </ul>
+                        </div>
+                     </div>
+                </section>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="./landing.html" class="bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition">&larr; Back to Framework Home</a>
+            </div>
+
+        </main>
+
+        <footer class="text-center mt-16 py-6 border-t">
+            <p class="text-sm text-gray-500">&copy; 2025 Enterprise AI Framework Initiative</p>
+        </footer>
+
+    </div>
+
+</body>
+</html>
